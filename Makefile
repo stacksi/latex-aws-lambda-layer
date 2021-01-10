@@ -38,11 +38,11 @@ build/layer.zip: result/texlive/bin/x86_64-linux/pdflatex build
 	cd result && zip -ry $(PROJECT_ROOT)$@ *
 
 build/output.yaml: template.yaml build/layer.zip
-	aws cloudformation package --template $< --s3-bucket $(DEPLOYMENT_BUCKET) --output-template-file $@
+	aws cloudformation package --template $< --s3-bucket $(DEPLOYMENT_BUCKET) --output-template-file $@ --profile stacksi-mfa
 
 deploy: build/output.yaml
-	aws cloudformation deploy --template $< --stack-name $(STACK_NAME)
-	aws cloudformation describe-stacks --stack-name $(STACK_NAME) --query Stacks[].Outputs --output table
+	aws cloudformation deploy --template $< --stack-name $(STACK_NAME) --profile stacksi-mfa
+	aws cloudformation describe-stacks --stack-name $(STACK_NAME) --query Stacks[].Outputs --output table --profile stacksi-mfa
 
 deploy-example:
 	cd example && \

@@ -33,11 +33,14 @@ $(TLMGR): $(TEXLIVE_SOURCE) $(WGET) $(MD5_pm)
 pandoc-packages: $(TLMGR)
 	$(TLMGR) install \
 		xcolor amsfonts amsmath lm unicode-math \
-		ifxetex ifluatex listings fancyvrb booktabs \
+		listings fancyvrb booktabs \
 		hyperref ulem geometry setspace babel upquote \
 		microtype parskip xurl oberdiek tools \
 		graphics footnotehyper mdwtools etoolbox ec
 
 all: $(TLMGR) pandoc-packages
-
-
+	rm /opt/texlive/texmf.cnf
+	echo "TEXMFLOCAL = /opt/texlive/texmf-local" > /opt/texlive/texmf.cnf
+	echo "TEXMFHOME = /opt/texlive/texmf" >> /opt/texlive/texmf.cnf
+	echo "TEXMFVAR = /opt/texlive/texmf-var" >> /opt/texlive/texmf.cnf
+	echo "TEXMFCONFIG = /opt/texlivetexmf-config" >> /opt/texlive/texmf.cnf
